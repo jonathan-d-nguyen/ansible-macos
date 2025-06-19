@@ -1,659 +1,569 @@
-# MacBook Configuration Migration with Ansible
+<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 
-A comprehensive deployment system for migrating macOS configurations, applications, and settings from one MacBook to another using Ansible. **Now includes advanced preference management with 600+ configurable settings** and covers 90%+ of your software inventory.
+<!--
+*** Thanks for checking out this macOS Development Environment automation project.
+*** If you have a suggestion that would make this better, please fork the repo 
+*** and create a pull request or simply open an issue with the tag "enhancement".
+*** Don't forget to give the project a star!
+*** Thanks again! Now go create something AMAZING! :D
+-->
 
-## 🎯 Latest Updates
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+-->
 
-### Advanced Preference Management System (June 2025)
-- **🔍 Automated Discovery**: Scan system for 600+ configurable preferences
-- **⚙️ Enterprise-Grade Deployment**: Multiple deployment modes with backup/restore
-- **🛡️ Safe Operations**: Comprehensive backup, verification, and rollback capabilities
-- **📋 Intelligent Integration**: Auto-discovery and integration of application preferences
-- **🎚️ Granular Control**: Category-based preference deployment
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-### Comprehensive Software Coverage (June 2025)
-- **📦 Homebrew Packages**: Expanded from 6 to 60+ packages
-- **🚀 Applications**: Increased from 24 to 50+ applications  
-- **📋 Manual Install Guide**: 25+ applications requiring direct installation
-- **⚡ Priority-Based Deployment**: Essential → Productivity → Complete options
-- **📊 Coverage**: Improved from ~30% to 90%+ of actual software inventory
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
 
-## Migration Workflow
+<h3 align="center">macOS Development Environment</h3>
 
-### On Your Old MacBook (Source)
-1. ✅ **Inventory Collection** - Already completed with existing scripts
-2. 🔄 **Export Settings** - Run `./scripts/export-dotfiles.sh` to capture dotfiles
-3. 🔍 **Discover Preferences** - Run `./scripts/preference-management.sh discover` to capture system preferences
-4. 📋 **Export App Configs** - Export Keyboard Maestro macros, Alfred workflows, etc.
-5. ⚙️ **Customize Configuration** - Edit configuration files based on inventory
+  <p align="center">
+    Automated macOS system configuration and application deployment using Ansible. Streamlines migration from existing MacBook or fresh system setup with curated development tools, applications, and system preferences.
+    <br />
+    <a href="https://github.com/jonathan-d-nguyen/dev-environment"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/jonathan-d-nguyen/dev-environment/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+  </p>
+</div>
 
-### On Your New MacBook (Target)
-1. 📥 **Transfer Project** - Copy this entire `dev-environment` directory to new MacBook
-2. 🚀 **Run Setup** - Execute `./setup.sh` to prepare environment
-3. ⚡ **Deploy by Priority** - Choose essential, productivity, or complete installation
-4. 🎛️ **Apply Preferences** - Deploy discovered system preferences with backup
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#1-about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#11-built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#2-quick-start">Quick Start</a>
+      <ul>
+        <li><a href="#21-prerequisites">Prerequisites</a></li>
+        <li><a href="#22-development-environment-settings">Development Environment Settings</a></li>
+        <li><a href="#23-basic-setup">Basic Setup</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#3-deployment--operations">Deployment & Operations</a>
+      <ul>
+        <li><a href="#31-full-installation-steps">Full Installation Steps</a></li>
+        <li><a href="#32-configuration-options">Configuration Options</a></li>
+        <li><a href="#33-system-analysis-tools">System Analysis Tools</a></li>
+        <li><a href="#34-troubleshooting">Troubleshooting</a></li>
+        <li><a href="#35-advanced-usage">Advanced Usage</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-roadmap">Roadmap</a></li>
+    <li>
+      <a href="#5-contributing">Contributing</a>
+      <ul>
+        <li><a href="#51-top-contributors">Top Contributors</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-license">License</a></li>
+    <li><a href="#7-contact">Contact</a></li>
+    <li><a href="#8-acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
 
-## Features
+<!-- Back to top link template for use throughout document -->
 
-- **🎯 Priority-Based Deployment**: Deploy in phases based on criticality
-- **📦 Comprehensive Coverage**: 90%+ of discovered software inventory
-- **🔧 Flexible Configuration**: Modular design for easy customization
-- **💾 Safe Operations**: Built-in backups and rollback capabilities
-- **📱 System Integration**: Complete macOS preferences automation with 600+ settings
-- **🛠️ Development Focus**: Enhanced tools for software development workflows
-- **🔍 Auto-Discovery**: Intelligent discovery and integration of system preferences
-- **🎚️ Granular Control**: Category-based preference management (UI, security, apps, etc.)
+<a id="readme-top"></a>
 
-## Quick Start (On New MacBook)
+<!-- ABOUT THE PROJECT -->
 
-> **Note**: These steps are for your **new MacBook** where you want to deploy the configuration.
+## 1. About The Project
 
-### 1. Initial Setup
-```bash
-# Run the setup script to prepare environment
-./setup.sh
+This repository demonstrates Infrastructure as Code practices for macOS system configuration using Ansible. It provides automated deployment of development tools, applications, system preferences, and configuration files, enabling consistent development environments across multiple machines or streamlined migration between systems.
 
-# Or manually make scripts executable
-./make-executable.sh
-chmod +x scripts/*.sh
-```
+**Key Features:**
+- **Selective Deployment**: Choose which components to install/configure
+- **System Migration**: Automated migration from existing MacBook to new system  
+- **Development Environment**: Rapid deployment of development tools and configurations
+- **Consistency**: Maintain identical configurations across multiple machines
+- **180+ Applications**: Comprehensive package management via Homebrew
 
-### 2. Choose Your Deployment Strategy
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-#### Option A: Complete System Deployment (Recommended)
-```bash
-cd ansible
+### 1.1. Built With
 
-# Deploy essential software + basic preferences
-ansible-playbook -i inventory/hosts.yml playbooks/deploy-priority.yml --extra-vars "priority=essential"
-ansible-playbook -i inventory/hosts.yml playbooks/enhanced-system-prefs.yml -e mode=basic
+- [![Ansible][Ansible.com]][Ansible-url]
+- [![Homebrew][Homebrew.sh]][Homebrew-url]
+- [![Shell Script][Shell Script Badge]][Shell-url]
+- [![YAML][YAML Badge]][YAML-url]
+- [![macOS][macOS Badge]][macOS-url]
+- [![Git][Git Badge]][Git-url]
+- [![Docker][Docker.io]][Docker-url]
+- [![VS Code][VS Code Badge]][VSCode-url]
 
-# Deploy full development environment + power user preferences
-ansible-playbook -i inventory/hosts.yml playbooks/deploy-priority.yml --extra-vars "priority=developer"
-ansible-playbook -i inventory/hosts.yml playbooks/enhanced-system-prefs.yml -e mode=developer
-```
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-#### Option B: Preference-Focused Deployment
-```bash
-# Discover current preferences (if migrating)
-./scripts/preference-management.sh discover
+<!-- QUICK START -->
 
-# Test preference deployment (no changes made)
-./scripts/preference-management.sh deploy basic --check
+## 2. Quick Start
 
-# Deploy system preferences
-./scripts/preference-management.sh deploy developer
-```
+Get up and running quickly with these basic steps. For detailed instructions, see [Full Installation Steps](#31-full-installation-steps).
 
-#### Option C: Traditional Configuration-Based Deployment
-```bash
-# Use comprehensive configuration
-ansible-playbook -i inventory/hosts.yml -e @inventory/group_vars/all-comprehensive.yml playbooks/main.yml
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-# Use minimal configuration for quick setup
-ansible-playbook -i inventory/hosts.yml -e @inventory/group_vars/minimal.yml playbooks/main.yml
-```
+### 2.1. Prerequisites
 
-## Project Structure
+1. **macOS Requirements**
+   - macOS 12.0+ (Monterey or later)
+   - Administrator access
+   - Internet connection
+
+2. **Ansible Installation**
+
+   ```sh
+   # Install via Homebrew (recommended)
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   brew install ansible
+
+   # Or install via pip
+   pip3 install ansible
+   ```
+
+3. **Homebrew Installation**
+
+   ```sh
+   # Install Homebrew (if not already installed)
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### 2.2. Development Environment Settings
+
+#### Project Structure
 
 ```
 dev-environment/
-├── setup.sh                      # 🆕 Environment setup script
-├── make-executable.sh             # 🆕 Script permissions manager
 ├── ansible/
-│   ├── playbooks/
-│   │   ├── main.yml              # Master playbook
-│   │   ├── deploy-priority.yml   # 🆕 Priority-based deployment
-│   │   ├── enhanced-system-prefs.yml # 🆕 Advanced preference management
-│   │   ├── homebrew.yml          # Package management
-│   │   ├── system-prefs.yml      # Basic macOS preferences  
-│   │   └── dotfiles.yml          # Configuration files
-│   └── inventory/
-│       ├── hosts.yml
-│       └── group_vars/
-│           ├── all.yml           # Original configuration
-│           ├── all-comprehensive.yml # 🆕 Complete software inventory
-│           ├── enhanced-preferences.yml # 🆕 600+ system preferences
-│           └── minimal.yml       # 🆕 Essential-only config
+│   ├── inventory/
+│   │   ├── group_vars/
+│   │   │   ├── all.yml                    # Main configuration variables
+│   │   │   ├── all-comprehensive.yml      # Extended configuration options
+│   │   │   ├── enhanced-preferences.yml   # Advanced system preferences
+│   │   │   └── minimal.yml               # Minimal installation profile
+│   │   └── hosts.yml                     # Ansible inventory
+│   └── playbooks/
+│       ├── main.yml                      # Master orchestration playbook
+│       ├── homebrew.yml                  # Package management
+│       ├── dotfiles.yml                  # Shell configuration sync
+│       ├── system-prefs.yml              # macOS system preferences
+│       ├── enhanced-system-prefs.yml     # Advanced system configuration
+│       └── deploy-priority.yml           # Priority deployment sequence
+├── config/
+│   └── dotfiles/                         # Shell configs, Git settings, SSH configs
 ├── scripts/
-│   ├── preference-management.sh  # 🆕 Unified preference management toolkit
-│   ├── discover-preferences.sh   # 🆕 Automated preference discovery
-│   ├── deploy-config.sh          # 🔄 Enhanced interactive deployment
-│   ├── system_inventory.sh       # 🔄 System audit (enhanced)
-│   ├── macos_software_audit.sh   # 🔄 Comprehensive inventory
-│   └── migration_inventory.txt   # Software inventory source
+│   ├── deploy-config.sh                  # Interactive deployment script
+│   ├── system_inventory.sh               # System analysis and discovery
+│   ├── macos_software_audit.sh          # Software inventory generation
+│   └── preference-management.sh          # System preference utilities
 ├── docs/
-│   ├── Manual_Installation_Guide.md # 🆕 Non-Homebrew apps guide
-│   ├── macos-ssh-setup.md
-│   └── ssh_host_key_verification.md
-├── discovered-preferences/        # 🆕 Auto-generated preference files
-└── README.md                     # This file
+│   ├── Manual_Installation_Guide.md      # Non-automatable software guide
+│   ├── macos-ssh-setup.md               # SSH configuration guide
+│   └── ssh_host_key_verification.md     # SSH security documentation
+└── setup.sh                             # Initial project setup
 ```
 
-## 🔍 Advanced Preference Management
-
-### Automated Preference Discovery
-```bash
-# Discover all system preferences
-./scripts/preference-management.sh discover
-
-# Discover specific application preferences
-./scripts/preference-management.sh discover -a com.apple.dock
-
-# List available applications with preferences
-./scripts/preference-management.sh discover -l
-```
-
-### Preference Deployment Modes
-
-#### Basic Mode (~15 preferences)
-**Core UI and Finder preferences for essential productivity**
-```bash
-./scripts/preference-management.sh deploy basic
-```
-- Dock autohide and sizing
-- Finder show extensions and path bar
-- Basic keyboard navigation
-
-#### Developer Mode (~50 preferences)  
-**Development-focused optimization**
-```bash
-./scripts/preference-management.sh deploy developer
-```
-- Keyboard optimization for coding
-- Terminal configuration  
-- Screenshot settings for documentation
-- VS Code integration
-
-#### Power User Mode (~100 preferences)
-**Comprehensive preferences excluding security settings**
-```bash
-./scripts/preference-management.sh deploy power_user
-```
-- Complete UI customization
-- Advanced Finder options
-- Keyboard and pointing device optimization
-- Terminal and screenshot preferences
-
-#### Full Mode (~150+ preferences)
-**All discovered preferences including security settings**
-```bash
-./scripts/preference-management.sh deploy full
-```
-- Complete system customization
-- Security and privacy settings
-- Application-specific configurations
-- Advanced system tweaks
-
-### Custom Preference Categories
-```bash
-# Deploy specific preference categories
-ansible-playbook playbooks/enhanced-system-prefs.yml -e mode=custom \
-  -e '{"preference_categories": {"ui_enabled": true, "finder_enabled": true}}'
-```
-
-Available categories:
-- **ui_enabled**: Dock, menu bar, window management
-- **finder_enabled**: File management and navigation
-- **keyboard_enabled**: Input and navigation optimization
-- **pointing_enabled**: Mouse and trackpad settings
-- **security_enabled**: Screen lock, firewall, privacy
-- **terminal_enabled**: Terminal and command line tools
-- **screenshot_enabled**: Screenshot behavior and location
-- **app_specific_enabled**: Application-specific preferences
-
-### Safety Features
-
-#### Automatic Backup
-```bash
-# All deployments automatically create backups
-ls ~/ansible-preference-backups/
-```
-
-#### Verification System
-```bash
-# Check deployment status
-./scripts/preference-management.sh status
-
-# Manual verification
-defaults read com.apple.dock autohide
-```
-
-#### Rollback Capability
-```bash
-# Restore from backup
-cp ~/ansible-preference-backups/[timestamp]/com.apple.dock.plist ~/tmp/
-defaults delete com.apple.dock
-defaults import com.apple.dock ~/tmp/com.apple.dock.plist
-killall Dock
-```
-
-## 🎯 Priority-Based Software Deployment
-
-### Essential (Priority 1) - ~25 Items
-**Core development and security tools for immediate productivity**
-- **Development**: git, node, GitHub CLI, VS Code, Docker, kubectl, Terraform
-- **Security**: 1Password, YubiKey Manager, Bitwarden
-- **Productivity**: Alfred, Keyboard Maestro, Obsidian, Rectangle
-- **Browsers**: Chrome, Firefox
-
-### Productivity (Priority 2) - ~30 Additional Items
-**Communication, cloud storage, and workflow enhancement**
-- **Communication**: Slack, Discord, Zoom, Teams, Signal, Telegram
-- **Cloud Storage**: Dropbox, Google Drive, OneDrive, Syncthing
-- **Utilities**: Hidden Bar, AlDente, CheatSheet, Shortcut Detective
-- **Development**: Vault, Pandoc, Protocol Buffers
-
-### Complete (Priority 3) - ~20 Additional Items
-**Specialized tools, media applications, and alternative software**
-- **Media**: Spotify, VLC, Steam, Loom
-- **Specialized**: VMware Fusion, Parsec, Immersed, Elgato Stream Deck
-- **Network**: Wireshark, VNC Viewer, Nmap, Telnet
-- **Utilities**: Alternative browsers, media processing tools
-
-## Configuration Options
-
-### Enhanced Preference Structure
-```yaml
-# 600+ preferences organized by category
-ui_preferences:          # Dock, menu bar, window management (15+ settings)
-finder_preferences:      # File management and navigation (20+ settings)
-keyboard_preferences:    # Input and shortcuts (15+ settings)
-pointing_preferences:    # Mouse and trackpad (10+ settings)
-security_preferences:    # Screen lock, firewall, privacy (10+ settings)
-terminal_preferences:    # Terminal configuration (5+ settings)
-screenshot_preferences:  # Screenshot behavior (5+ settings)
-app_preferences:         # Application-specific settings (varies)
-```
-
-### Available Configurations
-
-#### 1. Enhanced Preferences (`enhanced-preferences.yml`)
-```yaml
-# Complete preference management with 600+ settings
-deployment_modes:
-  basic: "{{ basic_preferences }}"           # ~15 preferences
-  power_user: "{{ power_user_preferences }}" # ~100 preferences  
-  developer: "{{ developer_preferences }}"   # ~50 preferences
-  full: "{{ all_preferences }}"             # ~150+ preferences
-```
-
-#### 2. Comprehensive Software (`all-comprehensive.yml`)
-```yaml
-# Complete software inventory with all priority levels
-homebrew_packages: 60+ packages
-homebrew_casks: 50+ applications
-manual_install_applications: 25+ documented apps
-```
-
-#### 3. Minimal Configuration (`minimal.yml`)
-```yaml
-# Essential-only for quick setup
-homebrew_packages: 14 essential packages
-homebrew_casks: 17 essential applications
-system_preferences: 8 basic settings
-```
-
-## 📋 Manual Installation Guide
-
-Applications requiring manual installation (no Homebrew equivalent):
-
-### 🎯 High Priority Manual Installs
-- **Xcode**: Development environment (Mac App Store)
-- **Autodesk Fusion**: CAD software ([autodesk.com](https://autodesk.com))
-- **GnuCash**: Personal finance ([gnucash.org](https://gnucash.org))
-
-### 📚 Education & Reference
-- **Anki**: Spaced repetition flashcards ([ankiweb.net](https://ankiweb.net))
-- **Apple iWork Suite**: Keynote, Numbers, Pages (Mac App Store)
-
-### 🌐 Network & Infrastructure
-- **UniFi**: Network management ([ui.com](https://ui.com))
-- **ZeroTier**: Software-defined networking ([zerotier.com](https://zerotier.com))
-
-*Complete guide available at: `docs/Manual_Installation_Guide.md`*
-
-## Script Reference
-
-### Setup and Preparation Scripts
-
-#### `./setup.sh`
-**Purpose**: Initialize project environment
-```bash
-./setup.sh
-```
-- Makes all scripts executable
-- Verifies Ansible and Homebrew installation
-- Provides next steps guidance
-
-#### `./make-executable.sh`
-**Purpose**: Ensure script permissions
-```bash
-./make-executable.sh
-```
-- Makes export-dotfiles.sh executable
-- Quick permission fix for individual scripts
-
-### Preference Management Scripts
-
-#### `./scripts/preference-management.sh`
-**Purpose**: Unified preference management toolkit
-```bash
-# Full preference discovery
-./scripts/preference-management.sh discover
-
-# Integrate discovered preferences into Ansible
-./scripts/preference-management.sh integrate
-
-# Deploy preferences (with backup)
-./scripts/preference-management.sh deploy developer
-
-# Create manual backup
-./scripts/preference-management.sh backup
-
-# Show system status
-./scripts/preference-management.sh status
-```
-
-#### `./scripts/discover-preferences.sh`
-**Purpose**: Automated preference discovery
-```bash
-# Comprehensive discovery
-./scripts/discover-preferences.sh
-
-# Specific application discovery
-./scripts/discover-preferences.sh -a com.apple.dock
-
-# Custom output directory
-./scripts/discover-preferences.sh -o /tmp/my-prefs
-
-# List available applications
-./scripts/discover-preferences.sh -l
-```
-
-### Inventory and Audit Scripts
-
-#### `./scripts/system_inventory.sh`
-**Purpose**: Basic system inventory for migration planning
-```bash
-./scripts/system_inventory.sh
-```
-- Generates `migration_inventory.txt`
-- Lists applications, Homebrew packages, system preferences, dotfiles
-
-#### `./scripts/macos_software_audit.sh`
-**Purpose**: Comprehensive software inventory
-```bash
-./scripts/macos_software_audit.sh
-```
-- Generates timestamped detailed inventory
-- Includes system info, all software sources, command-line tools
-- Used as source for comprehensive Ansible configurations
-
-### Deployment Scripts
-
-#### `./scripts/deploy-config.sh`
-**Purpose**: Interactive component-based deployment
-```bash
-./scripts/deploy-config.sh
-```
-- Interactive selection of components (homebrew, apps, system, dotfiles, etc.)
-- User-friendly prompts and confirmations
-- Wraps Ansible playbook with selected tags
-
-## Advanced Usage
-
-### Preference Discovery and Integration Workflow
-```bash
-# 1. Discover preferences from source system
-./scripts/preference-management.sh discover
-
-# 2. Review discovered preferences
-ls discovered-preferences/
-cat discovered-preferences/discovery-summary_*.md
-
-# 3. Integrate safe preferences into Ansible config
-./scripts/preference-management.sh integrate
-
-# 4. Test deployment (no changes)
-./scripts/preference-management.sh deploy basic --check
-
-# 5. Deploy with backup
-./scripts/preference-management.sh deploy developer
-```
-
-### Selective Deployment by Tags
-```bash
-cd ansible
-
-# Install only Homebrew packages
-ansible-playbook -i inventory/hosts.yml --tags "homebrew,packages" playbooks/main.yml
-
-# Install only applications
-ansible-playbook -i inventory/hosts.yml --tags "homebrew,casks" playbooks/main.yml
-
-# Configure only system preferences (basic)
-ansible-playbook -i inventory/hosts.yml playbooks/enhanced-system-prefs.yml -e mode=basic
-
-# Deploy only specific preference categories
-ansible-playbook -i inventory/hosts.yml playbooks/enhanced-system-prefs.yml -e mode=custom \
-  -e '{"preference_categories": {"ui_enabled": true, "keyboard_enabled": true}}'
-
-# Deploy only dotfiles
-ansible-playbook -i inventory/hosts.yml --tags "dotfiles" playbooks/main.yml
-```
-
-### Custom Configuration Creation
-```bash
-# Create environment-specific configs
-cp ansible/inventory/group_vars/minimal.yml ansible/inventory/group_vars/laptop.yml
-# Edit laptop.yml for laptop-specific software
-
-# Deploy with custom config
-ansible-playbook -i inventory/hosts.yml -e @inventory/group_vars/laptop.yml playbooks/main.yml
-```
-
-### Dry Run and Validation
-```bash
-# Check what would be installed without executing
-ansible-playbook --check -i inventory/hosts.yml playbooks/deploy-priority.yml --extra-vars "priority=essential"
-
-# Check what preferences would be applied
-ansible-playbook --check -i inventory/hosts.yml playbooks/enhanced-system-prefs.yml -e mode=developer
-
-# Validate current system state
-./scripts/macos_software_audit.sh
-diff migration_inventory.txt software_inventory_*.txt
-```
-
-## Integration with Existing Infrastructure
-
-### Cross-Reference with Basic Memory System
-This configuration management system integrates with your knowledge management:
-- **Reference**: memory://projects/mac-os-preference-management-system-development
-- **Pattern**: Discovery → Integration → Deployment workflow
-- **Scaling**: Extends to browser configs, IDE settings, and shell configurations
-
-### Synology NAS Integration
-Based on your current architecture, this Ansible setup complements:
-- **DS923+**: Can host Git repositories for configuration management
-- **DS220+**: Backup destination for configuration snapshots
-- **Development workflow**: Integrates with your Docker/ERPNext setup
-
-### Development Environment Alignment
-Supports your documented architecture:
-- **smallHP (Elite Mini 600 G9)**: Development container environment
-- **bigHP (Z2 Mini G9)**: Production application hosting
-- **Cross-platform**: Works across your mixed macOS/Linux environment
-
-## System Preferences Automation
-
-Enhanced macOS configuration covering 600+ settings across categories:
+#### Configuration Profiles
+
+The project includes multiple configuration profiles for different use cases:
+
+| Profile | Purpose | Applications | System Prefs | Use Case |
+|---------|---------|--------------|--------------|----------|
+| **minimal.yml** | Essential tools only | ~30 core apps | Basic settings | Quick setup, minimal footprint |
+| **all.yml** | Standard deployment | ~180 applications | Standard prefs | Full development environment |
+| **all-comprehensive.yml** | Complete feature set | All applications | All preferences | Maximum functionality |
+| **enhanced-preferences.yml** | Advanced customization | Standard apps | Advanced tweaks | Power user setup |
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### 2.3. Basic Setup
+
+1. **Clone and prepare**
+
+   ```sh
+   git clone https://github.com/jonathan-d-nguyen/dev-environment.git
+   cd dev-environment
+   
+   # Run initial setup
+   ./setup.sh
+   ```
+
+2. **Interactive deployment**
+
+   ```sh
+   # Launch interactive deployment script
+   ./scripts/deploy-config.sh
+   ```
+
+3. **Quick deployment (all components)**
+   ```sh
+   cd ansible
+   ansible-playbook -i inventory/hosts.yml playbooks/main.yml
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- DEPLOYMENT & OPERATIONS -->
+
+## 3. Deployment & Operations
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### 3.1. Full Installation Steps
+
+1. **Repository Setup**
+
+   ```sh
+   git clone https://github.com/jonathan-d-nguyen/dev-environment.git
+   cd dev-environment
+   ./setup.sh
+   ```
+
+2. **Interactive Component Selection**
+
+   ```sh
+   # Launch interactive deployment
+   ./scripts/deploy-config.sh
+   ```
+
+   The script will prompt you to select components:
+   - **homebrew**: Package manager and command-line tools (git, node, fzf, fd, powershell)
+   - **apps**: GUI applications via Homebrew Cask (VS Code, Docker, Alfred, Obsidian, Slack, etc.)
+   - **system**: macOS system preferences (Dock, Finder, keyboard settings)
+   - **dotfiles**: Shell configurations (.zshrc, .gitconfig, .bash_profile, etc.)
+   - **keyboard-maestro**: Macro automation import
+   - **alfred**: Workflow and preference import
+
+3. **Manual Deployment (Advanced)**
+
+   ```sh
+   cd ansible
+   
+   # Deploy specific components
+   ansible-playbook -i inventory/hosts.yml --tags "homebrew,dotfiles" playbooks/main.yml
+   
+   # Deploy with specific profile
+   ansible-playbook -i inventory/hosts.yml -e @inventory/group_vars/minimal.yml playbooks/main.yml
+   
+   # Deploy everything
+   ansible-playbook -i inventory/hosts.yml playbooks/main.yml
+   ```
+
+4. **Verification**
+
+   ```sh
+   # Check installed packages
+   brew list
+   
+   # Verify system preferences
+   defaults read com.apple.dock
+   
+   # Test dotfiles
+   source ~/.zshrc
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### 3.2. Configuration Options
+
+#### Main Configuration: `ansible/inventory/group_vars/all.yml`
 
 ```yaml
-# UI & Appearance (15+ settings)
-ui_preferences:
+# Core packages
+homebrew_packages:
+  - git
+  - node
+  - fzf
+  - fd
+  - powershell
+  - jsonnet
+
+# GUI applications  
+homebrew_casks:
+  # Development Tools
+  - visual-studio-code
+  - docker
+  - iterm2
+  - github-desktop
+  - fork
+  
+  # Productivity  
+  - alfred
+  - keyboard-maestro
+  - obsidian
+  - rectangle
+
+# System preferences
+system_preferences:
   - { domain: "com.apple.dock", key: "autohide", type: "bool", value: true }
   - { domain: "com.apple.dock", key: "tilesize", type: "int", value: 48 }
-  - { domain: "com.apple.dock", key: "show-recents", type: "bool", value: false }
-  - { domain: "com.apple.menuextra.clock", key: "DateFormat", type: "string", value: "EEE MMM d  HH:mm" }
+  - { domain: "com.apple.finder", key: "AppleShowAllExtensions", type: "bool", value: true }
 
-# File Management (20+ settings)  
-finder_preferences:
-  - { domain: "com.apple.finder", key: "ShowPathbar", type: "bool", value: true }
-  - { domain: "com.apple.finder", key: "_FXShowPosixPathInTitle", type: "bool", value: true }
-  - { domain: "com.apple.finder", key: "FXDefaultSearchScope", type: "string", value: "SCcf" }
-  - { domain: "com.apple.finder", key: "AppleShowAllFiles", type: "bool", value: true }
-
-# Input & Navigation (15+ settings)
-keyboard_preferences:
-  - { domain: "NSGlobalDomain", key: "AppleKeyboardUIMode", type: "int", value: 3 }
-  - { domain: "NSGlobalDomain", key: "KeyRepeat", type: "int", value: 2 }
-  - { domain: "NSGlobalDomain", key: "InitialKeyRepeat", type: "int", value: 15 }
-  - { domain: "NSGlobalDomain", key: "ApplePressAndHoldEnabled", type: "bool", value: false }
-
-# Security & Privacy (10+ settings)
-security_preferences:
-  - { domain: "com.apple.screensaver", key: "askForPassword", type: "bool", value: true }
-  - { domain: "com.apple.screensaver", key: "askForPasswordDelay", type: "int", value: 5 }
-  - { domain: "/Library/Preferences/com.apple.alf", key: "globalstate", type: "int", value: 1 }
+# Dotfiles to sync
+dotfiles:
+  - src: ".zshrc"
+    dest: "~/.zshrc"
+  - src: ".gitconfig" 
+    dest: "~/.gitconfig"
 ```
 
-## Troubleshooting
+#### Feature Toggles
 
-### Common Issues
-
-**Preference discovery fails**:
-```bash
-# Ensure script permissions
-chmod +x scripts/discover-preferences.sh scripts/preference-management.sh
-
-# Run discovery with debug output
-./scripts/discover-preferences.sh -o /tmp/debug-prefs
+Control deployment scope in `main.yml`:
+```yaml
+vars:
+  install_homebrew: true
+  install_apps: true
+  configure_system: true
+  sync_dotfiles: true
+  import_keyboard_maestro: false
+  import_alfred: false
 ```
 
-**Preference deployment not applying**:
-```bash
-# Some preferences require logout/login
-sudo pkill -u $USER
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-# Check if services need restart
-./scripts/preference-management.sh deploy basic
-# Services restart automatically via handlers
-```
+### 3.3. System Analysis Tools
 
-**Large number of preferences failing**:
-```bash
-# Start with basic mode
-./scripts/preference-management.sh deploy basic
+1. **Generate Software Inventory**
 
-# Check backup and verification
-ls ~/ansible-preference-backups/
-```
+   ```sh
+   # Create inventory of currently installed software
+   ./scripts/macos_software_audit.sh
+   
+   # Generate system configuration inventory  
+   ./scripts/system_inventory.sh
+   ```
 
-**Setup script fails**:
-```bash
-# Manual permission fix
-chmod +x setup.sh make-executable.sh
-chmod +x scripts/*.sh
-```
+2. **Export Current Dotfiles**
 
-### Validation and Monitoring
+   ```sh
+   # Export current shell configurations for version control
+   ./scripts/export-dotfiles.sh
+   ```
 
-```bash
-# Check preference discovery results
-./scripts/preference-management.sh status
-cat discovered-preferences/discovery-summary_*.md
+3. **System Preference Discovery**
+   
+   ```sh
+   # Discover current system preferences
+   ./scripts/discover-preferences.sh
+   ```
 
-# Validate deployed preferences
-defaults read com.apple.dock autohide
-defaults read com.apple.finder ShowPathbar
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-# Generate fresh inventory for comparison
-./scripts/macos_software_audit.sh
-```
+### 3.4. Troubleshooting
 
-### Performance Optimization
+1. **Common Issues**
 
-```bash
-# For preference deployment, start small
-./scripts/preference-management.sh deploy basic     # ~15 preferences, 1 min
-./scripts/preference-management.sh deploy developer # ~50 preferences, 2 min
-./scripts/preference-management.sh deploy full      # ~150+ preferences, 5 min
+   ```sh
+   # Homebrew permission errors
+   sudo chown -R $(whoami) /opt/homebrew
+   
+   # System preferences not applied
+   # Log out and back in, or restart
+   
+   # SSH key issues  
+   ssh-add -K ~/.ssh/id_rsa
+   ```
 
-# For software installation, deploy in phases
-ansible-playbook --extra-vars "priority=essential"    # ~2GB, 30 min
-ansible-playbook --extra-vars "priority=productivity" # +3GB, 30 min
-ansible-playbook --extra-vars "priority=complete"     # +3GB, 30 min
-```
+2. **Debug Mode**
 
-## File Organization and Workflow
+   ```sh
+   # Run with verbose output
+   ansible-playbook -i inventory/hosts.yml -vvv playbooks/main.yml
+   ```
 
-### Configuration Management
-1. **Source Control**: Keep configurations in Git for version management
-2. **Environment Variants**: Use different group_vars files for different scenarios
-3. **Incremental Updates**: Use priority-based deployment for gradual rollouts
-4. **Validation**: Regular inventory audits to ensure configuration accuracy
+3. **Reset to Defaults**
+   - System preferences: Reset via System Preferences app
+   - Homebrew packages: `brew uninstall <package>`
+   - Applications: Drag to Trash or use App Cleaner
 
-### Backup Strategy
-1. **Pre-deployment**: Automatic backup of existing configurations and preferences
-2. **Configuration Snapshots**: Version control for Ansible configurations
-3. **System State**: Regular inventory snapshots for rollback reference
-4. **Preference Backups**: Timestamped preference backups with restoration instructions
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Next Steps
+### 3.5. Advanced Usage
 
-### Immediate Actions
-1. **Test Preference Discovery**: Run `./scripts/preference-management.sh discover` on source system
-2. **Test Essential Deployment**: Start with `priority=essential` + `mode=basic` on test system
-3. **Review Discovered Preferences**: Check generated files in `discovered-preferences/`
-4. **Review Manual Apps**: Check `docs/Manual_Installation_Guide.md` for critical missing applications
+1. **Custom Playbook Development**
 
-### Future Enhancements
-- **Mac App Store Integration**: Add mas-cli for automated App Store installations
-- **Browser Configuration**: Extend preference discovery to browser settings and extensions
-- **IDE Settings**: Include VS Code, IntelliJ, and other IDE configurations
-- **Team Deployment**: Scale preference management for multiple team members
-- **CI/CD Integration**: Automate deployments with GitHub Actions
-- **Multi-Machine Sync**: Sync preferences across your HP infrastructure
+   ```sh
+   # Create custom playbook for specific workflows
+   ansible-playbook -i inventory/hosts.yml playbooks/your-custom-playbook.yml
+   ```
 
-## Contributing
+2. **Profile-Based Deployment**
 
-When adding new software or preferences:
+   ```sh
+   # Use different configuration profiles
+   ansible-playbook -i inventory/hosts.yml -e @inventory/group_vars/minimal.yml playbooks/main.yml
+   ```
 
-1. **Categorize by Priority**: Place software in appropriate priority level
-2. **Test Individually**: Verify installation before adding to lists
-3. **Document Manual Apps**: Add to manual installation guide if no Homebrew equivalent
-4. **Discover Preferences**: Use discovery script to find configurable settings
-5. **Update Coverage Metrics**: Track inventory coverage improvements
-6. **Maintain Compatibility**: Ensure backward compatibility with existing scripts
+3. **Adding New Applications**
 
-## 📊 Coverage Metrics
+   Edit `ansible/inventory/group_vars/all.yml`:
+   ```yaml
+   homebrew_casks:
+     - existing-app
+     - your-new-app        # Add new applications here
+   ```
 
-| Category | Coverage | Count | Notes |
-|----------|----------|--------|-------|
-| **Homebrew Packages** | 95% | 60+ packages | Essential to specialized tools |
-| **GUI Applications** | 85% | 50+ applications | Most common productivity apps |
-| **Command Line Tools** | 90% | All essential tools | Complete development toolkit |
-| **Manual Installation** | 100% | Documented guide | 25+ specialized applications |
-| **System Preferences** | 95% | 600+ settings | Comprehensive configuration |
-| **Application Preferences** | 80% | 10+ major apps | Alfred, Keyboard Maestro, etc. |
+4. **Custom System Preferences**
+   
+   ```yaml
+   system_preferences:
+     - { domain: "com.apple.yourapp", key: "setting", type: "bool", value: true }
+   ```
 
-**Total System Coverage**: 90%+ of discovered software and system configuration
+<!-- _For more examples, please refer to the [Documentation](docs/)_ -->
 
-## Deployment Profiles Summary
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-| Profile | Software Use Case | Preferences Use Case | Packages | Apps | Prefs | Time | Size |
-|---------|-------------------|----------------------|----------|------|-------|------|------|
-| **Essential** | Quick setup, core tools | Basic UI and navigation | 14 | 17 | 15 | 30 min | ~2GB |
-| **Developer** | Development workflow | Coding optimization | 25 | 25 | 50 | 45 min | ~4GB |
-| **Productivity** | Full workflow | Comprehensive UX | 23 | 35 | 100 | 60 min | ~5GB |
-| **Complete/Full** | Everything automated | All discovered settings | 37 | 52 | 150+ | 90 min | ~8GB |
+<!-- ROADMAP -->
 
----
+## 4. Roadmap
 
-*Last Updated: June 2025 - Enhanced with advanced preference management system*
+- [ ] **Enhanced Documentation**
+  - [ ] Video walkthrough of deployment process
+  - [ ] Troubleshooting guide expansion
+  - [ ] Performance optimization guide
 
-*For questions or issues, refer to the troubleshooting section or create an issue in the project repository.*
+- [ ] **Extended Platform Support**
+  - [ ] Linux compatibility layer
+  - [ ] Windows WSL support consideration
+  - [ ] Cross-platform dotfile management
 
-*Related Knowledge: See memory://projects/mac-os-preference-management-system-development for technical implementation details*
+- [ ] **Advanced Features**
+  - [ ] mas-cli integration for Mac App Store applications
+  - [ ] Custom download scripts for non-Homebrew applications  
+  - [ ] Ansible Vault integration for sensitive configurations
+  - [ ] Role-based deployment (developer, designer, manager profiles)
+
+- [x] **Core Infrastructure**
+  - [x] Selective component deployment
+  - [x] Interactive deployment script
+  - [x] Multiple configuration profiles
+  - [x] System analysis and inventory tools
+  - [x] Comprehensive application coverage (180+ apps)
+  - [x] Dotfile synchronization
+  - [x] System preference automation
+
+- [x] **Documentation & Guides**
+  - [x] Manual installation guide for non-automatable software
+  - [x] SSH setup and security documentation
+  - [x] System preference management utilities
+
+See the [open issues](https://github.com/jonathan-d-nguyen/dev-environment/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTRIBUTING -->
+
+## 5. Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Test changes on clean system or VM
+4. Update documentation as needed
+5. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+6. Push to the Branch (`git push origin feature/AmazingFeature`)
+7. Open a Pull Request
+
+### Testing Guidelines
+- Test on clean macOS installation when possible
+- Verify idempotency (running twice should be safe)
+- Document any new requirements or dependencies
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### 5.1. Top contributors:
+
+<a href="https://github.com/jonathan-d-nguyen/dev-environment/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=jonathan-d-nguyen/dev-environment" alt="contrib.rocks image" />
+</a>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LICENSE -->
+
+## 6. License
+
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- CONTACT -->
+
+## 7. Contact
+
+Jonathan Nguyen - jonathan@jdnguyen.tech
+
+Project Link: [https://github.com/jonathan-d-nguyen/dev-environment](https://github.com/jonathan-d-nguyen/dev-environment)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ACKNOWLEDGMENTS -->
+
+## 8. Acknowledgments
+
+- [Awesome README Template](https://github.com/othneildrew/Best-README-Template/)
+- [Ansible Community](https://www.ansible.com/community) - For the automation framework
+- [Homebrew](https://brew.sh/) - For simplified macOS package management  
+- [macOS Community](https://developer.apple.com/macos/) - For system preference documentation and best practices
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/jonathan-d-nguyen/dev-environment.svg?style=for-the-badge
+[contributors-url]: https://github.com/jonathan-d-nguyen/dev-environment/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/jonathan-d-nguyen/dev-environment.svg?style=for-the-badge
+[forks-url]: https://github.com/jonathan-d-nguyen/dev-environment/network/members
+[stars-shield]: https://img.shields.io/github/stars/jonathan-d-nguyen/dev-environment.svg?style=for-the-badge
+[stars-url]: https://github.com/jonathan-d-nguyen/dev-environment/stargazers
+[issues-shield]: https://img.shields.io/github/issues/jonathan-d-nguyen/dev-environment.svg?style=for-the-badge
+[issues-url]: https://github.com/jonathan-d-nguyen/dev-environment/issues
+[license-shield]: https://img.shields.io/github/license/jonathan-d-nguyen/dev-environment.svg?style=for-the-badge
+[license-url]: https://github.com/jonathan-d-nguyen/dev-environment/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/JonathanDanhNguyen
+[product-screenshot]: images/screenshot.png
+
+[Ansible.com]: https://img.shields.io/badge/ansible-%231A1918.svg?style=for-the-badge&logo=ansible&logoColor=white
+[Ansible-url]: https://www.ansible.com/
+[Homebrew.sh]: https://img.shields.io/badge/Homebrew-FBB040?style=for-the-badge&logo=homebrew&logoColor=black
+[Homebrew-url]: https://brew.sh/
+[Shell Script Badge]: https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white
+[Shell-url]: https://www.gnu.org/software/bash/
+[YAML Badge]: https://img.shields.io/badge/yaml-%23ffffff.svg?style=for-the-badge&logo=yaml&logoColor=151515
+[YAML-url]: https://yaml.org/
+[macOS Badge]: https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0
+[macOS-url]: https://www.apple.com/macos/
+[Git Badge]: https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white
+[Git-url]: https://git-scm.com/
+[Docker.io]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://www.docker.com/
+[VS Code Badge]: https://img.shields.io/badge/Visual%20Studio%20Code-0078d4.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white
+[VSCode-url]: https://code.visualstudio.com/
